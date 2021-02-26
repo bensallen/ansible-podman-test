@@ -1,0 +1,23 @@
+---
+- hosts: all
+  gather_facts: false
+  roles:
+    - { role: buildah_setup }
+
+- hosts: all
+  tasks:
+  - name: Install Needed Packages
+    package:
+      name:
+      - timezone
+      - vim
+      - systemd
+      state: present
+  - name: Set timezone to Etc/UTC
+    timezone:
+      name: Etc/UTC
+
+- hosts: all
+  gather_facts: false
+  roles:
+    - { role: buildah_finalize }

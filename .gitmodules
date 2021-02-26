@@ -1,0 +1,6 @@
+[submodule "roles/buildah_finalize"]
+	path = roles/buildah_finalize
+	url = git@github.com:bensallen/ansible-role-buildah_finalize.git
+[submodule "roles/buildah_setup"]
+	path = roles/buildah_setup
+	url = git@github.com:bensallen/ansible-role-buildah_setup.git
