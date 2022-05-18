@@ -1,6 +1,6 @@
-buildah_base_image: "opensuse/leap:latest"
+buildah_base_image: "opensuse/leap:15.3"
 buildah_fact_override:
   ansible_distribution: "openSUSE Leap"
   ansible_distribution_major_version: '15'
-  ansible_distribution_version: '15.2'
+  ansible_distribution_version: '15.3'
   ansible_os_family: Suse
