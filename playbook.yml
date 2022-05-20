@@ -1,8 +1,37 @@
 ---
 - hosts: all
   gather_facts: false
+  pre_tasks:
+    - name: Check playbook's git repo revision
+      local_action: ansible.builtin.command git show -s --pretty=format:%h
+      args:
+        chdir: "{{ playbook_dir }}"
+      register: playbook_git_result
+      changed_when: false
+
+    - name: Check playbook's git repo dirty status
+      local_action: ansible.builtin.shell git update-index -q --refresh; git diff-index --quiet --cached HEAD -- && git diff-files --quiet || echo -dirty
+      args:
+        chdir: "{{ playbook_dir }}"
+      register: playbook_git_dirty_result
+      changed_when: false
+
+    - name: Get Date
+      local_action: ansible.builtin.command date +"%Y%m%dT%H%M%S"
+      register: playbook_datetime_result
+      changed_when: false
+
+    - set_fact:
+        wwvnfs_git_rev: "{{ playbook_git_result.stdout }}"
+        wwvnfs_git_dirty: "{{ playbook_git_dirty_result.stdout }}"
+        wwvnfs_datetime: "{{ playbook_datetime_result.stdout }}"
+        wwbootstrap_git_rev: "{{ playbook_git_result.stdout }}"
+        wwbootstrap_git_dirty: "{{ playbook_git_dirty_result.stdout }}"
+        wwbootstrap_datetime: "{{ playbook_datetime_result.stdout }}"
+        podman_git_ref: "{{ playbook_git_result.stdout }}"
+        podman_rev: "{{ playbook_datetime_result.stdout }}_{{ playbook_git_result.stdout }}"
   roles:
-    - { role: buildah_setup }
+    - { role: podman_setup }
 
 - hosts: all
   tasks:
@@ -16,8 +45,13 @@
   - name: Set timezone to Etc/UTC
     timezone:
       name: Etc/UTC
+  - name: Start ca-certificates
+    service:
+      name: ca-certificates
+      state: started
+      enabled: yes
 
 - hosts: all
   gather_facts: false
   roles:
-    - { role: buildah_finalize }
+    - { role: podman_finalize }

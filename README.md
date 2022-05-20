@@ -1,5 +1,5 @@
-- When using user namespaces, call ansible with buildah unshare
+- When using user namespaces, call ansible with podman unshare
 
 ```
-buildah unshare -- ansible-playbook -i inventory -v playbook.yml
+podman unshare -- ansible-playbook -i inventory -v playbook.yml
 ```

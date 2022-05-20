@@ -1,1 +1,1 @@
-test1 ansible_connection=buildah ansible_python_interpreter=/usr/bin/python3
+test1 ansible_connection=podman ansible_python_interpreter=/usr/bin/python3

@@ -1,5 +1,6 @@
-buildah_base_image: "opensuse/leap:15.3"
-buildah_fact_override:
+podman_base_image: "opensuse/leap"
+podman_base_image_tag: "15.3"
+podman_fact_override:
   ansible_distribution: "openSUSE Leap"
   ansible_distribution_major_version: '15'
   ansible_distribution_version: '15.3'
